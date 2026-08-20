@@ -38,10 +38,22 @@
   th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
   th{color:var(--sub);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.4px}
   code{background:#eef0f7;border-radius:5px;padding:1px 6px;font-size:.88em;font-family:"SF Mono",Menlo,Consolas,monospace}
+  /* 语言切换角标 */
+  .lang-switch{position:fixed;top:14px;right:14px;z-index:99;display:flex;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.4);box-shadow:0 2px 10px rgba(0,0,0,.15);border-radius:999px;overflow:hidden;font-size:.8rem;font-weight:600;backdrop-filter:blur(6px)}
+  .lang-switch button{border:none;background:transparent;padding:7px 16px;cursor:pointer;color:var(--sub);transition:all .15s;font-size:.8rem;font-weight:600}
+  .lang-switch button.active{background:var(--brand);color:#fff}
+  .lang-switch button:hover:not(.active){color:var(--brand)}
 </style>
 </head>
 <body>
 
+<div class="lang-switch" role="group" aria-label="Language">
+  <button id="btn-en" class="active" type="button">EN</button>
+  <button id="btn-zh" type="button">中文</button>
+</div>
+
+<!-- ===================== 英文版 EN ===================== -->
+<div class="lang-en">
 <header>
   <div class="wrap">
     <h1>Web Security Audit Skill</h1>
@@ -99,6 +111,85 @@
 <footer>
   <div class="wrap">web-security-audit · MIT License · Authorized assessments only · Built on the <a href="https://agentskills.io/specification" target="_blank" rel="noopener">Agent Skills open standard</a></div>
 </footer>
+</div>
 
+<!-- ===================== 中文版 ZH ===================== -->
+<div class="lang-zh" hidden>
+<header>
+  <div class="wrap">
+    <h1>Web 安全审计技能</h1>
+    <span class="tag">Agent Skills · 开放标准</span>
+    <p>白盒根因分析 + 黑盒行为验证 + 负面行为测试三件套 —— 面向通用 Web 应用的安全审计。</p>
+    <div class="badges">
+      <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT">
+      <img src="https://img.shields.io/badge/Agent%20Skills-compatible-6a5cff.svg" alt="Agent Skills 兼容" style="margin-left:6px">
+    </div>
+    <br>
+    <a class="btn" href="https://github.com/cnbruce/web-security-audit" target="_blank" rel="noopener">在 GitHub 查看 →</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>为什么做这个</h2>
+  <p class="muted">纯静态（白盒）审计会系统性漏掉<em>行为侧</em>问题——畸形输入返回 <code>500</code> 而非 <code>400</code>，或 SPA 兜底把 <code>/db/blog.db</code> 静默变成 200 页面、被扫描器误判为数据库泄露。本技能把源码分析与攻击者视角的线上验证结合，并把教训沉淀为可复用的核查清单。</p>
+
+  <div class="grid">
+    <div class="card"><h3>白盒 + 黑盒结合</h3><p>静态根因核查（SQLi / XSS / 认证 / 越权 / CSRF / 上传 / 路径遍历 / SSRF / 泄露 / 依赖），与线上行为交叉印证。</p></div>
+    <div class="card"><h3>负面行为三件套</h3><p>畸形输入 → 断言 400/422 而非 500；敏感路径 + content-type 校验 → 区分兜底假象与真实泄露；未知路径 → 404 语义。</p></div>
+    <div class="card"><h3>可执行探测脚本</h3><p><code>scripts/probe.sh &lt;url&gt;</code> 一条命令跑完三件套，内置判定规则注释。</p></div>
+    <div class="card"><h3>安全边界内置</h3><p>仅限授权目标。全程非破坏性：无真实注入、无爆破、不触碰数据。</p></div>
+  </div>
+
+  <h2>安装</h2>
+  <p class="muted">Agent Skills 是开放标准——<strong>同一个技能文件夹在所有平台通用</strong>，把 <code>web-security-audit/</code> 解压到对应工具的 skills 目录即可。</p>
+  <table>
+    <tr><th>平台</th><th>全局目录</th><th>项目目录</th></tr>
+    <tr><td>Claude Code</td><td><code>~/.claude/skills/</code></td><td><code>.claude/skills/</code></td></tr>
+    <tr><td>OpenAI Codex CLI</td><td><code>~/.codex/skills/</code></td><td><code>.codex/skills/</code> 或 <code>.agents/skills/</code></td></tr>
+    <tr><td>Cursor</td><td><code>~/.cursor/skills/</code></td><td><code>.cursor/skills/</code></td></tr>
+    <tr><td>Gemini CLI</td><td><code>~/.gemini/skills/</code></td><td>—</td></tr>
+    <tr><td>GitHub Copilot</td><td><code>~/.copilot/skills/</code></td><td><code>.github/skills/</code></td></tr>
+    <tr><td>Windsurf</td><td><code>~/.codeium/windsurf/skills/</code></td><td><code>.windsurf/skills/</code></td></tr>
+    <tr><td>Cline / OpenCode / Kimi Code</td><td><code>~/.agents/skills/</code></td><td><code>.agents/skills/</code>（共享）</td></tr>
+    <tr><td>Trae / Trae CN</td><td><code>~/.trae/skills/</code></td><td><code>.trae/skills/</code></td></tr>
+    <tr><td>Qwen Code（通义）</td><td><code>~/.qwen/skills/</code></td><td><code>.qwen/skills/</code></td></tr>
+    <tr><td>WorkBuddy</td><td><code>~/.workbuddy/skills/</code></td><td>—</td></tr>
+    <tr><td>本地开发</td><td colspan="2"><code>scripts/probe.sh</code> 可独立运行</td></tr>
+  </table>
+  <p class="muted">路径核对自 Agent Skills 生态目录表（2026-03），以各平台官方文档为准。小技巧：维护一个 <code>.agents/skills/</code> 即可同时覆盖 Copilot、Cline、Cursor、Codex、Gemini CLI、OpenCode 等。</p>
+
+  <h2>使用</h2>
+  <pre><span class="c"># 负面行为测试（畸形输入 / 敏感路径 / 未知路径）</span>
+./scripts/probe.sh https://target.example.com
+
+<span class="c"># 完整审计流程（AI 驱动）：摸底 → 白盒 → 黑盒 → 负面三件套 → 报告</span></pre>
+  <p class="muted">输出：风险分级结果（Critical / High / Medium / Low / Info），每项附现象 / 影响 / 修复代码 / 验证方法——并直接回答"有没有后门""会不会被爆库"。</p>
+
+  <h2>语言</h2>
+  <p class="muted">中文：<a href="https://github.com/cnbruce/web-security-audit/blob/main/README.zh-CN.md">README.zh-CN.md</a> · English: <a href="https://github.com/cnbruce/web-security-audit/blob/main/README.md">README.md</a></p>
+</main>
+
+<footer>
+  <div class="wrap">web-security-audit · MIT 许可 · 仅限授权审计 · 基于 <a href="https://agentskills.io/specification" target="_blank" rel="noopener">Agent Skills 开放标准</a> 构建</div>
+</footer>
+</div>
+
+<script>
+(function () {
+  var KEY = 'wsa-lang';
+  var saved = localStorage.getItem(KEY);
+  var lang = (saved === 'zh' || saved === 'en') ? saved : 'en'; // 默认英文
+  function apply(l) {
+    document.documentElement.lang = l;
+    document.querySelector('.lang-en').hidden = (l !== 'en');
+    document.querySelector('.lang-zh').hidden = (l !== 'zh');
+    document.getElementById('btn-en').classList.toggle('active', l === 'en');
+    document.getElementById('btn-zh').classList.toggle('active', l === 'zh');
+  }
+  document.getElementById('btn-en').addEventListener('click', function () { localStorage.setItem(KEY, 'en'); apply('en'); });
+  document.getElementById('btn-zh').addEventListener('click', function () { localStorage.setItem(KEY, 'zh'); apply('zh'); });
+  apply(lang);
+})();
+</script>
 </body>
 </html>
