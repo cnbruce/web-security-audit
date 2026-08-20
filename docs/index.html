@@ -68,13 +68,22 @@
   </div>
 
   <h2>Installation</h2>
+  <p class="muted">Agent Skills is an open standard — the same folder works on every platform. Unzip <code>web-security-audit/</code> into the skills directory of your tool.</p>
   <table>
-    <tr><th>Platform</th><th>How</th></tr>
-    <tr><td>Claude Code</td><td><code>mkdir -p ~/.claude/skills && unzip web-security-audit-claude.zip -d ~/.claude/skills/</code></td></tr>
-    <tr><td>WorkBuddy</td><td>Drop into <code>~/.workbuddy/skills/</code></td></tr>
-    <tr><td>Other compatible platforms</td><td>Unzip into the corresponding skills directory</td></tr>
-    <tr><td>Standalone</td><td>This repo is the skill itself — <code>scripts/probe.sh</code> runs independently</td></tr>
+    <tr><th>Platform</th><th>Global path</th><th>Project path</th></tr>
+    <tr><td>Claude Code</td><td><code>~/.claude/skills/</code></td><td><code>.claude/skills/</code></td></tr>
+    <tr><td>OpenAI Codex CLI</td><td><code>~/.codex/skills/</code></td><td><code>.codex/skills/</code> / <code>.agents/skills/</code></td></tr>
+    <tr><td>Cursor</td><td><code>~/.cursor/skills/</code></td><td><code>.cursor/skills/</code></td></tr>
+    <tr><td>Gemini CLI</td><td><code>~/.gemini/skills/</code></td><td>—</td></tr>
+    <tr><td>GitHub Copilot</td><td><code>~/.copilot/skills/</code></td><td><code>.github/skills/</code></td></tr>
+    <tr><td>Windsurf</td><td><code>~/.codeium/windsurf/skills/</code></td><td><code>.windsurf/skills/</code></td></tr>
+    <tr><td>Cline / OpenCode / Kimi Code</td><td><code>~/.agents/skills/</code></td><td><code>.agents/skills/</code> (shared)</td></tr>
+    <tr><td>Trae / Trae CN</td><td><code>~/.trae/skills/</code></td><td><code>.trae/skills/</code></td></tr>
+    <tr><td>Qwen Code (Alibaba)</td><td><code>~/.qwen/skills/</code></td><td><code>.qwen/skills/</code></td></tr>
+    <tr><td>WorkBuddy</td><td><code>~/.workbuddy/skills/</code></td><td>—</td></tr>
+    <tr><td>Standalone</td><td colspan="2"><code>scripts/probe.sh</code> runs independently</td></tr>
   </table>
+  <p class="muted">Paths per the Agent Skills ecosystem table (2026-03) — confirm with platform docs. Tip: one <code>.agents/skills/</code> covers Copilot, Cline, Cursor, Codex, Gemini CLI, OpenCode &amp; more.</p>
 
   <h2>Usage</h2>
   <pre><span class="c"># negative behavior test (malformed inputs / sensitive paths / unknown paths)</span>

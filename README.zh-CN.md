@@ -16,12 +16,21 @@
 
 ## 安装
 
-| 平台 | 方式 |
-|---|---|
-| Claude Code | `mkdir -p ~/.claude/skills && unzip web-security-audit-claude.zip -d ~/.claude/skills/` |
-| WorkBuddy | 放入 `~/.workbuddy/skills/` |
-| 其他兼容平台 | 解压 zip 到对应 skills 目录 |
-| 本地开发 | 本项目目录即技能本体，`scripts/probe.sh` 可独立运行 |
+| 平台 | 全局目录 | 项目目录 |
+|---|---|---|
+| **Claude Code** | `~/.claude/skills/` | `.claude/skills/` |
+| **OpenAI Codex CLI** | `~/.codex/skills/` | `.codex/skills/`（或 `.agents/skills/`） |
+| **Cursor** | `~/.cursor/skills/` | `.cursor/skills/` |
+| **Gemini CLI** | `~/.gemini/skills/` | — |
+| **GitHub Copilot** | `~/.copilot/skills/` | `.github/skills/` |
+| **Windsurf** | `~/.codeium/windsurf/skills/` | `.windsurf/skills/` |
+| **Cline / OpenCode / Kimi Code** | `~/.agents/skills/` | `.agents/skills/`（通用共享） |
+| **Trae / Trae CN** | `~/.trae/skills/` | `.trae/skills/` |
+| **Qwen Code（通义）** | `~/.qwen/skills/` | `.qwen/skills/` |
+| **WorkBuddy** | `~/.workbuddy/skills/` | — |
+| 本地开发 | 本项目目录即技能本体，`scripts/probe.sh` 可独立运行 | — |
+
+> Agent Skills 是开放标准——**同一个技能文件夹在所有平台通用**，解压 `web-security-audit/` 到上表任一目录即可。路径核对自 Agent Skills 生态目录表（2026-03），具体以各平台官方文档为准。小技巧：维护一个 `.agents/skills/` 即可同时覆盖 Copilot、Cline、Cursor、Codex、Gemini CLI、OpenCode 等。
 
 ## 使用
 
