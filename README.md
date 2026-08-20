@@ -1,53 +1,56 @@
-# Web Security Audit Skill（web-security-audit）
+# Web Security Audit Skill (web-security-audit)
 
-通用 Web 应用安全审计技能：**白盒（源码）找因 + 黑盒（线上行为）验果 + 负面行为测试三件套**，输出分级风险报告与可直接粘贴的修复代码。
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-> 本技能遵循 [Agent Skills 开放标准](https://agentskills.io/specification)（Anthropic 发起），兼容 Claude Code、WorkBuddy、Codex CLI、Gemini CLI、Cursor、VS Code、GitHub Copilot 等平台。
+A general-purpose web application **security audit** skill: **white-box (source) root-cause analysis + black-box (live behavior) verification + a "negative behavior test" trio** — producing severity-graded risk reports with ready-to-paste fixes.
 
-## 特性
+> Compliant with the [Agent Skills open standard](https://agentskills.io/specification) (initiated by Anthropic). Works with Claude Code, WorkBuddy, Codex CLI, Gemini CLI, Cursor, VS Code, GitHub Copilot, and more.
 
-- **白盒 + 黑盒结合**：静态核查漏洞成因（SQLi / XSS / 认证 / 越权 / CSRF / 上传 / 路径遍历 / SSRF / 信息泄露 / 依赖），黑盒验证攻击者可观察的行为（状态码 / 响应体 / 兜底 / 敏感文件可达性），两者交叉印证。
-- **负面行为测试三件套**（核心，纯静态审计最易漏的部分）：
-  1. 公开接口畸形输入 → 断言返回 400/422 而非 500；
-  2. 敏感路径清单 + `content-type` 校验 → 区分 SPA 兜底假象与真实文件泄露；
-  3. 未知路径 404 语义 → SPA 兜底只应命中无扩展名前端路由。
-- **可执行探测脚本**：`scripts/probe.sh <url>` 一键完成三件套。
-- **安全边界内置**：仅限授权目标、全程非破坏性（无真实注入、无爆破、不触碰数据）。
+## Features
 
-## 安装
+- **White-box + black-box combined** — statically inspect root causes (SQLi / XSS / auth / IDOR / CSRF / upload / path traversal / SSRF / info disclosure / dependencies), then verify attacker-observable behavior (status codes, response bodies, SPA fallbacks, sensitive-file reachability) and cross-validate both.
+- **Negative behavior test trio** (the core; the part pure static analysis most often misses):
+  1. **Malformed inputs on public endpoints** → assert `400/422`, not `500`;
+  2. **Sensitive-path probing + `content-type` check** → distinguish SPA-fallback artifacts from real file leaks;
+  3. **Unknown-path 404 semantics** → SPA fallback should only match extension-less frontend routes.
+- **Runnable probe script** — `scripts/probe.sh <url>` runs the whole trio in one shot.
+- **Safety built-in** — authorized targets only; fully non-destructive (no real injection, no brute-force, no data mutation).
 
-| 平台 | 方式 |
+## Installation
+
+| Platform | How |
 |---|---|
 | Claude Code | `mkdir -p ~/.claude/skills && unzip web-security-audit-claude.zip -d ~/.claude/skills/` |
-| WorkBuddy | 放入 `~/.workbuddy/skills/` |
-| 其他兼容平台 | 解压 zip 到对应 skills 目录 |
-| 本地开发 | 本项目目录即技能本体，`scripts/probe.sh` 可独立运行 |
+| WorkBuddy | Drop into `~/.workbuddy/skills/` |
+| Other compatible platforms | Unzip into the corresponding skills directory |
+| Standalone | This repo is the skill itself; `scripts/probe.sh` runs independently |
 
-## 使用
+## Usage
 
 ```bash
-# 1) 负面行为测试（畸形输入 / 敏感路径 / 未知路径）
+# 1) Negative behavior test (malformed inputs / sensitive paths / unknown paths)
 ./scripts/probe.sh https://target.example.com
 
-# 2) 完整审计流程（由 AI 执行）
-#    摸底 → 白盒逐类核查 → 黑盒验果 → 负面测试三件套 → 交叉验证与报告
+# 2) Full audit flow (driven by an AI agent)
+#    recon → white-box pass → black-box pass → negative trio → cross-validation & report
 ```
 
-审计输出：风险分级表（Critical / High / Medium / Low / Info），每项附「现象 / 影响 / 修复代码 / 验证方法」，并直接回答"有没有后门""会不会被爆库"等核心问题。
+**Output:** a severity-graded table (Critical / High / Medium / Low / Info); each finding with *symptom / impact / fix code / verification*; and direct answers to questions like *"any backdoors?"* or *"can the database be dumped?"*.
 
-## 目录结构
+## Structure
 
 ```
 web-security-audit/
-├── SKILL.md                    # 技能定义：方法论 + 安全边界 + 5 步审计流程
-├── references/checklist.md     # 10 类白盒核查项 + 三件套命令与判定规则 + 报告模板 + 常见陷阱
-├── scripts/probe.sh            # 负面行为测试探测脚本（非破坏性）
-└── README.md                   # 本文档
+├── SKILL.md                    # Skill definition: methodology + safety boundary + 5-step flow
+├── references/checklist.md     # 10 white-box categories + trio commands & rules + report template + pitfalls
+├── scripts/probe.sh            # Negative behavior test probe script (non-destructive)
+├── README.md                   # This file
+└── README.zh-CN.md             # 中文说明
 ```
 
-## 安全声明
+## Safety statement
 
-本技能仅用于**授权**的安全评估（自有项目或已获书面授权）。所有内置探测均为无害验证性请求；禁止用于未授权目标。
+For **authorized** assessments only (your own projects or written authorization). All built-in probes are harmless verification requests. Never use against unauthorized targets.
 
 ## License
 

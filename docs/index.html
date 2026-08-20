@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Security Audit Skill — web-security-audit</title>
+<meta name="description" content="A general-purpose web security audit agent skill: white-box root-cause analysis + black-box behavior verification + negative behavior test trio. Agent Skills open standard.">
+<style>
+  :root{
+    --ink:#1a1d29; --sub:#5b6070; --line:#e8eaf1; --bg:#f7f8fc;
+    --brand:#6a5cff; --brand2:#38bdf8; --card:#ffffff; --code:#0f172a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+  header{background:linear-gradient(135deg,#6a5cff 0%,#38bdf8 55%,#a78bfa 100%);color:#fff;padding:72px 0 84px;text-align:center;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;inset:0;background:radial-gradient(600px 200px at 80% -10%,rgba(255,255,255,.25),transparent)}
+  header h1{font-size:2.4rem;font-weight:800;letter-spacing:-.5px;position:relative}
+  header .tag{display:inline-block;margin-top:14px;font-size:.85rem;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);padding:4px 14px;border-radius:999px;position:relative}
+  header p{max-width:640px;margin:18px auto 0;font-size:1.05rem;opacity:.95;position:relative}
+  .badges{margin-top:18px;position:relative}
+  .badges img{height:20px}
+  main{padding:56px 0 72px;margin-top:-36px;position:relative}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:28px 0 8px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 2px rgba(20,24,40,.04)}
+  .card h3{font-size:1.02rem;margin-bottom:8px}
+  .card p{color:var(--sub);font-size:.92rem}
+  h2{font-size:1.35rem;margin:36px 0 6px;letter-spacing:-.3px}
+  .muted{color:var(--sub);font-size:.95rem}
+  pre{background:var(--code);color:#e2e8f0;border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:.88rem;margin:14px 0}
+  pre .c{color:#64748b}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .btn{display:inline-block;background:#fff;color:var(--brand);font-weight:700;padding:10px 22px;border-radius:999px;margin-top:22px;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.12);transition:transform .12s}
+  .btn:hover{transform:translateY(-1px);text-decoration:none}
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--sub);font-size:.85rem;text-align:center}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.4px}
+  code{background:#eef0f7;border-radius:5px;padding:1px 6px;font-size:.88em;font-family:"SF Mono",Menlo,Consolas,monospace}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Web Security Audit Skill</h1>
+    <span class="tag">Agent Skills · Open Standard</span>
+    <p>White-box root-cause analysis + black-box behavior verification + a negative behavior test trio — for general-purpose web application security auditing.</p>
+    <div class="badges">
+      <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT">
+      <img src="https://img.shields.io/badge/Agent%20Skills-compatible-6a5cff.svg" alt="Agent Skills compatible" style="margin-left:6px">
+    </div>
+    <br>
+    <a class="btn" href="https://github.com/cnbruce/web-security-audit" target="_blank" rel="noopener">View on GitHub →</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>Why it exists</h2>
+  <p class="muted">Pure static (white-box) audit systematically misses <em>behavior-side</em> issues — malformed input returning <code>500</code> instead of <code>400</code>, or an SPA fallback silently turning <code>/db/blog.db</code> into a 200 page that scanners mistake for a database leak. This skill pairs source analysis with live attacker-perspective verification, and encodes those lessons as a repeatable checklist.</p>
+
+  <div class="grid">
+    <div class="card"><h3>White-box + black-box</h3><p>Static root-cause pass (SQLi / XSS / auth / IDOR / CSRF / upload / traversal / SSRF / disclosure / deps) cross-validated against live behavior.</p></div>
+    <div class="card"><h3>Negative behavior trio</h3><p>Malformed inputs → assert 400/422 not 500; sensitive paths + content-type check → separate fallback artifacts from real leaks; unknown paths → 404 semantics.</p></div>
+    <div class="card"><h3>Runnable probe script</h3><p><code>scripts/probe.sh &lt;url&gt;</code> runs the entire trio in one shot, with built-in pass/fail rules annotated.</p></div>
+    <div class="card"><h3>Safety built-in</h3><p>Authorized targets only. Fully non-destructive: no real injection, no brute-force, no data mutation.</p></div>
+  </div>
+
+  <h2>Installation</h2>
+  <table>
+    <tr><th>Platform</th><th>How</th></tr>
+    <tr><td>Claude Code</td><td><code>mkdir -p ~/.claude/skills && unzip web-security-audit-claude.zip -d ~/.claude/skills/</code></td></tr>
+    <tr><td>WorkBuddy</td><td>Drop into <code>~/.workbuddy/skills/</code></td></tr>
+    <tr><td>Other compatible platforms</td><td>Unzip into the corresponding skills directory</td></tr>
+    <tr><td>Standalone</td><td>This repo is the skill itself — <code>scripts/probe.sh</code> runs independently</td></tr>
+  </table>
+
+  <h2>Usage</h2>
+  <pre><span class="c"># negative behavior test (malformed inputs / sensitive paths / unknown paths)</span>
+./scripts/probe.sh https://target.example.com
+
+<span class="c"># full audit flow (AI-driven): recon → white-box → black-box → negative trio → report</span></pre>
+  <p class="muted">Output: severity-graded findings (Critical / High / Medium / Low / Info), each with symptom / impact / fix code / verification — and direct answers to "any backdoors?" or "can the DB be dumped?".</p>
+
+  <h2>Language</h2>
+  <p class="muted">English: <a href="https://github.com/cnbruce/web-security-audit/blob/main/README.md">README.md</a> · 中文: <a href="https://github.com/cnbruce/web-security-audit/blob/main/README.zh-CN.md">README.zh-CN.md</a></p>
+</main>
+
+<footer>
+  <div class="wrap">web-security-audit · MIT License · Authorized assessments only · Built on the <a href="https://agentskills.io/specification" target="_blank" rel="noopener">Agent Skills open standard</a></div>
+</footer>
+
+</body>
+</html>
